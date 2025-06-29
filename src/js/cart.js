@@ -1,9 +1,10 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, qs } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  calculateTotal(cartItems)
 }
 
 function cartItemTemplate(item) {
@@ -23,6 +24,18 @@ function cartItemTemplate(item) {
 </li>`;
 
   return newItem;
+}
+
+function calculateTotal(cartItems){
+  const htmlTotal = qs(".cart-footer-hide")
+  let total = 0;
+  cartItems.forEach(element => {
+    total += element.FinalPrice;
+  });
+  if (cartItems.length > 0){
+  htmlTotal.style.display= "block";
+  htmlTotal.innerHTML = `<p class="cart-total">Total: $ ${total.toFixed(2)} </p>`;
+  }
 }
 
 renderCartContents();
