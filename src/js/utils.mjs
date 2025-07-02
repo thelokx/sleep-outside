@@ -39,3 +39,17 @@ export function renderListWithTemplate(templateFn, parentElement, list, position
   
   parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
 }
+
+export function backPackNumber(){
+  const htlmElement = qs(".backPackText");
+  const cartItems = getLocalStorage("so-cart") || [];
+if (cartItems.length > 0){
+  let totalItems = 0;
+  cartItems.forEach(Item => {
+    totalItems += 1
+  })
+  htlmElement.textContent = totalItems;
+  htlmElement.style.display = "block"
+  
+}
+}
