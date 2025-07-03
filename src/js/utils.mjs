@@ -45,11 +45,37 @@ export function backPackNumber(){
   const cartItems = getLocalStorage("so-cart") || [];
 if (cartItems.length > 0){
   let totalItems = 0;
-  cartItems.forEach(Item => {
+  cartItems.forEach(() => {
     totalItems += 1
   })
   htlmElement.textContent = totalItems;
   htlmElement.style.display = "block"
-  
 }
+else{
+  htlmElement.style.display = "none"
+}
+}
+
+export function renderWithTemplate(template, parentElement, callback){
+  parentElement.innerHTML = template;
+  if (callback){
+    callback()
+  }
+}
+
+export async function loadTemplate(path){
+  const res = await fetch(path);
+  const template = await res.text();
+  
+  return template
+}
+
+export async function loadHeaderFooter(){
+  const header = await loadTemplate("/partials/header.html")
+  const headerElement = qs("#main-header")
+  renderWithTemplate(header, headerElement, backPackNumber)
+
+  const footer = await loadTemplate("/partials/footer.html")
+  const footerElement = qs("#main-footer")
+  renderWithTemplate(footer, footerElement)
 }
